@@ -1,0 +1,83 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      target: deps
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+      - /app/.next
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:8000
+      - WATCHPACK_POLLING=true
+    command: npm run dev
+    networks:
+      - lidar_net
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+      - ./projects:/app/projects
+      - ./frontend/public/potree/bin/linux/PotreeConverter:/app/bin/PotreeConverter:ro
+    environment:
+      - REDIS_URL=redis://redis:6379/0
+    command: python3 -m uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+    depends_on:
+      redis:
+        condition: service_healthy
+    networks:
+      - lidar_net
+
+  redis:
+    image: redis/redis-stack:latest
+    container_name: redis_dev
+    command: redis-server --protected-mode no
+    ports:
+      - "6379:6379"
+      - "8001:8001"
+    volumes:
+      - redis_data_dev:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - lidar_net
+
+  worker:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    volumes:
+      - ./backend:/app
+      - ./projects:/app/projects
+      - ./frontend/public/potree/bin/linux/PotreeConverter:/app/bin/PotreeConverter:ro
+    environment:
+      - REDIS_URL=redis://redis:6379/0
+      - CELERY_BROKER_URL=redis://redis:6379/0
+    command: celery -A tasks worker --loglevel=info
+    depends_on:
+      redis:
+        condition: service_healthy
+      backend:
+        condition: service_started
+    networks:
+      - lidar_net
+
+networks:
+  lidar_net:
+    driver: bridge
+
+volumes:
+  redis_data_dev:

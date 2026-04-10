@@ -1,0 +1,22 @@
+# Dependencies
+node_modules
+**/node_modules
+venv
+
+# Build outputs (Only top level to avoid breaking nested builds)
+.next
+out
+build
+dist
+.cache
+__pycache__
+*.pyc
+
+# User Data and Large Assets
+projects
+**/pointcloud
+
+# Git and Docs
+.git
+.gitignore
+README.md

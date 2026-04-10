@@ -1,0 +1,17 @@
+venv
+env
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.db
+.sqlite
+.sqlite3
+projects
+*.las
+*.laz
+*.dxf
+*.pdf
+.DS_Store
+pip-log.txt
+pip-delete-this-directory.txt

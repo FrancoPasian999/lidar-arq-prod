@@ -1,0 +1,11 @@
+fastapi
+uvicorn
+laspy
+pdal==2.4.2
+open3d
+prisma
+websockets
+python-multipart
+redis
+celery
+numpy<2.0

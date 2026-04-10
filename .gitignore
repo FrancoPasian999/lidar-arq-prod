@@ -1,0 +1,39 @@
+# Dependency directories (Recursive)
+**/node_modules/
+**/jspm_packages/
+**/venv/
+.env
+.env.*
+
+# Build outputs (Recursive)
+**/.next/
+**/out/
+**/build/
+**/dist/
+**/.cache/
+*.pyc
+**/__pycache__/
+
+# User Data (Point Clouds and Projects)
+projects/
+**/projects/*
+# Potree sample data is extremely heavy (2.1GB)
+frontend/public/potree/public/pointcloud/
+
+# Binaries and Large Executables
+*.exe
+*.dll
+*.so
+*.dylib
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+
+# OS Metadata
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

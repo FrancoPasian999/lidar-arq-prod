@@ -1,0 +1,6 @@
+fastapi
+uvicorn
+pydantic
+websockets
+python-multipart
+# Spatial libs (laspy, pdal, open3d) omitted for host-only testing
