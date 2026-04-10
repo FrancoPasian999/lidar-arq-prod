@@ -1,0 +1,22 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+#potree_quick_buttons {
+    position: absolute;
+    left: 4px;
+    top: 4px;
+    height: 10px;
+    z-index: 10000;
+    float: left;
+    width: 30px;
+}
+
+/* potree-overrides.css */
+#tools,
+#clipping_tools,
+#navigation {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0px;
+}
